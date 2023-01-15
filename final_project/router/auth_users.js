@@ -50,13 +50,14 @@ regd_users.post("/login", (req,res) => {
 regd_users.put("/auth/review/:isbn", (req, res) => {
   //Write your code here
   //return res.status(300).json({message: "Yet to be implemented"});
-  const review = req.query.review;
-  const isbn = req.query.isbn;
-  const userName = req.session.authorization.userName//get from session
-
+  const review = req.body.review;
+  const isbn = req.params.isbn;
+  const userName = req.session.authorization.username;
+    
   for(let key in books) {
     if (key === isbn) {
         books[key].reviews[userName] = review;
+        res.send(books[key]);
     }
   }
 });
