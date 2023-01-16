@@ -62,7 +62,27 @@ regd_users.put("/auth/review/:isbn", (req, res) => {
   }
 });
 
+// Delete a book review
+regd_users.delete("/auth/review/:isbn", (req, res) => {
+    //Write your code here
+    //return res.status(300).json({message: "Yet to be implemented"});
+    const isbn = req.params.isbn;
+    const userName = req.session.authorization.username;
+      
+    for(let key in books) {
+      if (key === isbn) {
+          if(books[key].reviews[userName]){
+            delete books[key].reviews[userName];
+            res.send(books[key]);
+          }else{
+              res.send(`Can't find any reviews by user: ${userName}`);
+          }
+      }
+    }
+  });
+
 module.exports.authenticated = regd_users;
 module.exports.isValid = isValid;
 module.exports.users = users;
+
 
